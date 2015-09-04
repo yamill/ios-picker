@@ -111,18 +111,11 @@
     againstURLPattern:(NSString *)URLPattern;
 
 /*!
-   Returns the UTI (Universal Type Identifier) corresponding to a given MIME type.
+   Returns the UTI (Universal Type Identifier) corresponding to a given mimetype.
 
    @returns A NSString with the UTI
  */
 + (NSString *)UTIForMimetype:(NSString *)mimetype;
-
-/*!
-   Returns the MIME type corresponding to a given UTI (Universal Type Identifier).
-
-   @returns A NSString with the MIME type
- */
-+ (NSString *)mimetypeForUTI:(NSString *)UTI;
 
 /*!
    Tests for a conformance relationship between the two identified
@@ -142,10 +135,9 @@
     andLocalizedDescription:(NSString *)localizedDescription;
 
 /*!
-   Returns uniqe string
-
-   @returns NSString with uniqe stirng
+ Returns uniqe string
+ 
+ @returns NSString with uniqe stirng
  */
 + (NSString *)uuidString;
-
 @end

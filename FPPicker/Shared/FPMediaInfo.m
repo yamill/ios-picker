@@ -12,11 +12,6 @@
 
 @implementation FPMediaInfo
 
-- (NSString *)MIMEtype
-{
-    return [FPUtils mimetypeForUTI:self.mediaType];
-}
-
 - (BOOL)containsImageAtMediaURL
 {
     if (self.mediaURL &&
@@ -29,11 +24,11 @@
     return NO;
 }
 
-- (BOOL)containsMovieAtMediaURL
+- (BOOL)containsVideoAtMediaURL
 {
     if (self.mediaURL &&
         self.mediaType &&
-        [FPUtils UTI:self.mediaType conformsToUTI:@"public.movie"])
+        [FPUtils UTI:self.mediaType conformsToUTI:@"public.video"])
     {
         return YES;
     }
@@ -43,7 +38,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@ {\n\tmediaType = %@\n\tmediaURL = %@\n\tremoteURL = %@\n\tfilename = %@\n\tfilesize = %@\n\tkey = %@\n\tsource = %@\n\toriginalAsset = %@\n\tthumbnailImage = %@\n\tcontainsImageAtMediaURL = %@\n\tcontainsMovieAtMediaURL = %@\n}",
+    return [NSString stringWithFormat:@"%@ {\n\tmediaType = %@\n\tmediaURL = %@\n\tremoteURL = %@\n\tfilename = %@\n\tfilesize = %@\n\tkey = %@\n\tsource = %@\n\toriginalAsset = %@\n\tthumbnailImage = %@\n\tcontainsImageAtMediaURL = %@\n\tcontainsVideoAtMediaURL = %@\n}",
             super.description,
             self.mediaType,
             self.mediaURL,
@@ -54,8 +49,8 @@
             self.source.identifier,
             self.originalAsset,
             self.thumbnailImage,
-            self.containsImageAtMediaURL ? @"YES" : @"NO",
-            self.containsMovieAtMediaURL ? @"YES" : @"NO"];
+            self.containsImageAtMediaURL ? @"YES":@"NO",
+            self.containsVideoAtMediaURL ? @"YES":@"NO"];
 }
 
 @end

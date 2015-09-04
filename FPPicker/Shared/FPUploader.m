@@ -11,18 +11,11 @@
 #import "FPUploader.h"
 #import "FPSession+ConvenienceMethods.h"
 
-@interface FPUploader ()
-
-@property (readwrite) NSOperationQueue *operationQueue;
-
-@end
-
 @implementation FPUploader
 
 - (instancetype)initWithLocalURL:(NSURL *)localURL
                         filename:(NSString *)filename
-                        mimetype:(NSString *)mimetype
-               andOperationQueue:(NSOperationQueue *)operationQueue
+                     andMimetype:(NSString *)mimetype
 {
     self = [super init];
 
@@ -31,7 +24,6 @@
         NSAssert(localURL, @"LocalURL must be provided");
         NSAssert(mimetype, @"Mimetype must be provided");
 
-        self.operationQueue = operationQueue;
         self.localURL = localURL;
         self.filename = filename;
         self.mimetype = mimetype;

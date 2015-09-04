@@ -12,6 +12,8 @@
 
 @interface FPFileDownloadController : FPFileTransferController
 
+@property (nonatomic, assign) BOOL shouldDownloadData;
+
 - (instancetype)initWithItems:(NSArray *)items
          andRepresentedSource:(FPRepresentedSource *)representedSource;
 

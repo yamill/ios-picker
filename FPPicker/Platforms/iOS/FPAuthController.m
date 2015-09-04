@@ -21,7 +21,6 @@
 @interface FPAuthController ()
 
 @property (nonatomic, strong) NSDictionary *settings;
-@property (nonatomic, strong) FPSource *source;
 
 @end
 
@@ -39,7 +38,6 @@
 
     if (self)
     {
-        self.source = source;
         self.service = source.identifier;
         self.title = source.name;
     }
@@ -89,6 +87,8 @@
                            fpBASE_URL,
                            serviceID,
                            fpAPIKEY];
+
+    NSLog(@"url: %@", urlString);
 
     NSMutableURLRequest *requestObj = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
 
@@ -149,17 +149,17 @@
     shouldStartLoadWithRequest:(NSURLRequest *)request
                 navigationType:(UIWebViewNavigationType)navigationType
 {
-    DLog(@"Loading Path: %@ (relpath: %@)",
-         request.URL.absoluteString,
-         request.URL.path);
+    NSLog(@"Loading Path: %@ (relpath: %@)",
+          request.URL.absoluteString,
+          request.URL.path);
 
     if ([request.URL.path isEqualToString:@"/dialog/open"])
     {
         //NSLog(@"HIT");
         //NSLog(@"Coookies: %@", fpCOOKIES);
 
-        [[NSNotificationCenter defaultCenter] postNotificationName:FPPickerDidAuthenticateAgainstSourceNotification
-                                                            object:self.source];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"auth"
+                                                            object:nil];
 
         [self.navigationController popViewControllerAnimated:NO];
 

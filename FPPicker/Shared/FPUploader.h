@@ -22,8 +22,7 @@
  */
 - (instancetype)initWithLocalURL:(NSURL *)localURL
                         filename:(NSString *)filename
-                        mimetype:(NSString *)mimetype
-               andOperationQueue:(NSOperationQueue *)operationQueue NS_DESIGNATED_INITIALIZER;
+                     andMimetype:(NSString *)mimetype NS_DESIGNATED_INITIALIZER;
 
 /**
    Initiates the file upload.
@@ -60,13 +59,6 @@
    @note Optional.
  */
 @property (nonatomic, copy) FPUploadAssetProgressBlock progressBlock;
-
-/**
-    The operation queue to use to perform uploads.
-
-    @note Optional.
- */
-@property (nonatomic, strong, readonly) NSOperationQueue *operationQueue;
 
 #ifdef FPUploader_protected
 

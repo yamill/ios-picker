@@ -9,13 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "FPExternalHeaders.h"
 
-@class FPTheme;
-
 @interface FPSaveController : UINavigationController
 
 @property (nonatomic, weak) id <FPSaveControllerDelegate> fpdelegate;
 @property (nonatomic, strong) NSArray *sourceNames;
-@property (nonatomic, strong) FPTheme *theme;
 
 @property (nonatomic, strong) NSData *data;
 @property (nonatomic, strong) NSURL *dataurl;

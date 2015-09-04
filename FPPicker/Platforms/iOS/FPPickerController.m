@@ -9,47 +9,16 @@
 #import "FPPickerController.h"
 #import "FPImagePickerController.h"
 #import "FPInternalHeaders.h"
-#import "FPTheme.h"
-#import "FPThemeApplier.h"
 
 @interface FPPickerController () <UIImagePickerControllerDelegate,
                                   UINavigationControllerDelegate,
                                   FPSourceControllerDelegate>
 
 @property (nonatomic, assign) BOOL hasStatusBar;
-@property (nonatomic, strong) NSOperationQueue *uploadOperationQueue;
-@property (nonatomic, strong) FPThemeApplier *themeApplier;
 
 @end
 
 @implementation FPPickerController
-
-#pragma mark - Accessors
-
-- (void)setTheme:(FPTheme *)theme
-{
-    _theme = theme;
-
-    // Apply theme
-    self.themeApplier = [[FPThemeApplier alloc] initWithTheme:theme];
-
-    if (self.isViewLoaded)
-    {
-        [self.themeApplier applyToController:self];
-    }
-}
-
-- (NSOperationQueue *)uploadOperationQueue
-{
-    if (!_uploadOperationQueue)
-    {
-        _uploadOperationQueue = [NSOperationQueue new];
-    }
-
-    return _uploadOperationQueue;
-}
-
-#pragma mark - Constructors / Destructor
 
 - (void)initializeProperties
 {
@@ -61,6 +30,9 @@
     self.cameraViewTransform = CGAffineTransformMake(1, 0, 0, 1, 0, 0);
     self.cameraDevice = UIImagePickerControllerCameraDeviceRear;
     self.cameraFlashMode = UIImagePickerControllerCameraFlashModeAuto;
+
+    self.shouldUpload = YES;
+    self.shouldDownload = YES;
 
     self.selectMultiple = NO;
     self.maxFiles = 0;
@@ -118,11 +90,8 @@
     return self;
 }
 
-#pragma mark - Other Methods
-
 - (void)viewDidLoad
 {
-    [self.themeApplier applyToController:self];
     [super viewDidLoad];
 
     // Do any additional setup after loading the view.
@@ -152,6 +121,18 @@
 
     [self pushViewController:fpSourceListController
                     animated:YES];
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    self.sourceNames = nil;
+    self.dataTypes = nil;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return YES;
 }
 
 #pragma mark UIImagePickerControllerDelegate Methods
@@ -207,7 +188,7 @@
             mediaInfo.thumbnailImage = thumbImage;
 
             [self.fpdelegate fpPickerController:self
-                           didPickMediaWithInfo :mediaInfo];
+                           didPickMediaWithInfo:mediaInfo];
         });
     }
 
@@ -276,7 +257,8 @@
 
             [FPLibrary uploadImage:imageToSave
                         ofMimetype:dataType
-               usingOperationQueue:self.uploadOperationQueue
+                       withOptions:info
+                      shouldUpload:self.shouldUpload
                            success:successBlock
                            failure:failureBlock
                           progress:progressBlock];
@@ -286,7 +268,8 @@
             NSURL *url = info[@"UIImagePickerControllerMediaURL"];
 
             [FPLibrary uploadVideoURL:url
-                  usingOperationQueue:self.uploadOperationQueue
+                          withOptions:info
+                         shouldUpload:self.shouldUpload
                               success:successBlock
                               failure:failureBlock
                              progress:progressBlock];
@@ -331,7 +314,7 @@
         [self.fpdelegate respondsToSelector:@selector(fpPickerController:didPickMediaWithInfo:)])
     {
         [self.fpdelegate fpPickerController:self
-                       didPickMediaWithInfo :info];
+                       didPickMediaWithInfo:info];
     }
 }
 

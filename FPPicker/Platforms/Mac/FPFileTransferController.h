@@ -20,12 +20,10 @@
 
 @interface FPFileTransferController : NSWindowController
 
-@property (nonatomic, strong, readonly) NSOperationQueue *operationQueue;
 @property (nonatomic, strong) IBOutlet NSTextField *descriptionTextField;
 @property (nonatomic, strong) IBOutlet NSProgressIndicator *progressIndicator;
 @property (nonatomic, weak) id <FPFileTransferControllerDelegate> delegate;
 
 - (void)process;
-- (IBAction)cancel:(id)sender;
 
 @end

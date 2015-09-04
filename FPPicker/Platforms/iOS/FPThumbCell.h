@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FPTableViewCell.h"
 
-@interface FPThumbCell : FPTableViewCell
+@interface FPThumbCell : UITableViewCell
 
 @end
